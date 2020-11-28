@@ -1,8 +1,37 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './style.css'
 import Barcode from './images/barcode.jpg'
+import fetch from 'node-fetch'
+import { axios } from '../axios'
 
 const Comic = () => {
+  const getComic = async () => {
+    try {
+      const response = await fetch('https://xkcd.com/info.0.json')
+      const data = await response.json()
+      console.log('TLC ~ file: Comic.js ~ line 13 ~ getComic ~ data', data)
+      // return data
+    } catch (error) {
+      console.log('TLC ~ file: Comic.js ~ line 14 ~ getComic ~ error', error)
+    }
+  }
+
+  // try {
+  //   const data = await axios.get('/info.0.json', {
+  //     headers: { 'Access-Control-Allow-Origin': 'ORIGIN' },
+  //   })
+  //   console.log('TLC ~ file: Comic.js ~ line 9 ~ getComic ~ data', data)
+  // } catch (error) {
+  //   console.log(
+  //     'TLC ~ file: Comic.js ~ line 14 ~ getComic ~ error',
+  //     error.response
+  //   )
+  // }
+
+  useEffect(() => {
+    getComic()
+  })
+
   return (
     <div className='comiccover'>
       <div className='cover'>
