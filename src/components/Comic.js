@@ -9,15 +9,18 @@ const Comic = () => {
 
   const getComic = async () => {
     try {
-      const response = await fetch('https://xkcd.com/info.0.json')
+      const response = await fetch(
+        'https://thingproxy.freeboard.io/fetch/https://xkcd.com/info.0.json'
+      )
       const currentComic = await response.json()
       const randomComicNumber = Math.round(Math.random() * (currentComic.num - 1) + 1)
-      const data = await fetch(`https://xkcd.com/${randomComicNumber}/info.0.json`)
+      const data = await fetch(
+        `https://thingproxy.freeboard.io/fetch/https://xkcd.com/${randomComicNumber}/info.0.json`
+      )
       const randomComic = await data.json()
       setDataComic(randomComic)
-      console.log('TLC ~ file: Comic.js ~ line 17 ~ getComic ~ randomComic', randomComic)
     } catch (error) {
-      console.log('TLC ~ file: Comic.js ~ line 14 ~ getComic ~ error', error)
+      console.log(error)
     }
   }
 
