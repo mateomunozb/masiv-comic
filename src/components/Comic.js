@@ -1,36 +1,29 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import './style.css'
 import Barcode from './images/barcode.jpg'
 import fetch from 'node-fetch'
-import { axios } from '../axios'
+import CustomizedRatings from './Rate'
 
 const Comic = () => {
+  const [dataComic, setDataComic] = useState({})
+
   const getComic = async () => {
     try {
       const response = await fetch('https://xkcd.com/info.0.json')
-      const data = await response.json()
-      console.log('TLC ~ file: Comic.js ~ line 13 ~ getComic ~ data', data)
-      // return data
+      const currentComic = await response.json()
+      const randomComicNumber = Math.round(Math.random() * (currentComic.num - 1) + 1)
+      const data = await fetch(`https://xkcd.com/${randomComicNumber}/info.0.json`)
+      const randomComic = await data.json()
+      setDataComic(randomComic)
+      console.log('TLC ~ file: Comic.js ~ line 17 ~ getComic ~ randomComic', randomComic)
     } catch (error) {
       console.log('TLC ~ file: Comic.js ~ line 14 ~ getComic ~ error', error)
     }
   }
 
-  // try {
-  //   const data = await axios.get('/info.0.json', {
-  //     headers: { 'Access-Control-Allow-Origin': 'ORIGIN' },
-  //   })
-  //   console.log('TLC ~ file: Comic.js ~ line 9 ~ getComic ~ data', data)
-  // } catch (error) {
-  //   console.log(
-  //     'TLC ~ file: Comic.js ~ line 14 ~ getComic ~ error',
-  //     error.response
-  //   )
-  // }
-
   useEffect(() => {
     getComic()
-  })
+  }, [])
 
   return (
     <div className='comiccover'>
@@ -43,28 +36,25 @@ const Comic = () => {
         </div>
       </div>
       <div className='title'>
-        <h1>Life Before the Pandemic</h1>
+        <h1>{dataComic.title}</h1>
       </div>
       <div className='image'>
-        <img
-          src='https://imgs.xkcd.com/comics/life_before_the_pandemic.png'
-          alt=''
-        />
+        <img src={dataComic.img} alt='' />
+        <CustomizedRatings className='rate' />
       </div>
       <div className='number'>
         <div className='date'>
-          <h1>Num. 20528</h1>
-          <h2>Day: 27 Month: 11 Year: 2020 </h2>
+          <h1>Num. {dataComic.num}</h1>
+          <h2>
+            Day: {dataComic.day} Month: {dataComic.month} Year: {dataComic.year}
+          </h2>
         </div>
         <a href='http://www.freepik.com' target='_blank' rel='noreferrer'>
           <img src={Barcode} alt='' />
         </a>
       </div>
       <div className='description'>
-        <p>
-          Our retina display features hundreds of pixels per inch in the central
-          fovea region.
-        </p>
+        <p>{dataComic.alt}</p>
         <div className='refresh'>
           <a href='/'>
             <h1>REFRESH!</h1>
@@ -73,8 +63,7 @@ const Comic = () => {
             href='https://xkcd.com/'
             target='
             _blank'
-            rel='noreferrer'
-          >
+            rel='noreferrer'>
             <span>Or go to xkcd</span>
           </a>
         </div>
