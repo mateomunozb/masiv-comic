@@ -7,6 +7,7 @@ El objetivo de esta app es poder obtener un comic aleatorio de [xkcd](https://xk
 - Este proyecto fue creado con [Create React App](https://github.com/facebook/create-react-app).
 - Estilos con [CSS](https://www.w3schools.com/css/)
 - El componente para calificar el comic que se uso es [Rating](https://material-ui.com/api/rating/) de [MATERIAL-UI](https://material-ui.com/)
+- Proxy server para CORS [thingproxy](https://github.com/Freeboard/thingproxy)
 
 ## Como iniciar la aplicación
 
